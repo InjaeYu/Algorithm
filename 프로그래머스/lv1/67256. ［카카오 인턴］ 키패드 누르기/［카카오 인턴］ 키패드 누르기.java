@@ -29,15 +29,14 @@ class Solution {
         
         for(int i : numbers) {
             if(Arrays.stream(leftArr).anyMatch(o -> o == i)) {
-                left = i;
                 answer.append("L");
+                left = i;
             } else if(Arrays.stream(rightArr).anyMatch(o -> o == i)) {
-                right = i;
                 answer.append("R");
+                right = i;
             } else {
                 int leftDistance = distanceCalc(left, i);
                 int rightDistance = distanceCalc(right, i);
-                System.out.print("Left : " + leftDistance + ", Right : " + rightDistance);
                 if(leftDistance == rightDistance) {
                     char c;
                     if(hand.equals("left")) {
@@ -48,15 +47,12 @@ class Solution {
                         right = i;
                     }
                     answer.append(c);
-                    // System.out.println("\t | add : " + c);
                 } else if(leftDistance < rightDistance) {
                     answer.append("L");
                     left = i;
-                    // System.out.println("\t | add : L");
                 } else {
                     answer.append("R");
                     right = i;
-                    // System.out.println("\t | add : R");
                 }
             }
         }
