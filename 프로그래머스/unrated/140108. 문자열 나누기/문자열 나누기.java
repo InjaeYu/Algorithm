@@ -4,7 +4,7 @@ class Solution {
             return 1;
         }
         
-        int answer = 0, baseCount = 1, diffCount = 0;
+        int answer = 1, baseCount = 1, diffCount = 0;
         char[] stringArray = s.toCharArray();
         char base = stringArray[0];
         for(int i = 1; i < stringArray.length; i++) {
@@ -23,6 +23,7 @@ class Solution {
                 }
             }
         }
-        return answer + 1;
+        
+        return answer;
     }
 }
