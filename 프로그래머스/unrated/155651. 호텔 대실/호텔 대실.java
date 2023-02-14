@@ -1,32 +1,20 @@
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 class Solution {
-    public int solution(String[][] book_time) throws ParseException {
+    public int solution(String[][] book_time) {
         int roomCount = 0;
-        List<Long> readyTime = new ArrayList<>(book_time.length);
-        SimpleDateFormat s = new SimpleDateFormat("HH:mm");
+        List<Integer> readyTime = new ArrayList<>(book_time.length);
 
-        Arrays.sort(book_time, (l, r) -> {
-            try {
-                return (int) (s.parse(l[0]).getTime() - s.parse(r[0]).getTime());
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        Arrays.sort(book_time, Comparator.comparingInt(l -> convertStringToLong(l[0])));
 
         for (String[] time : book_time) {
-            readyTime.add(s.parse(calcCleaning(time)).getTime());
+            readyTime.add(convertStringToLong(calcCleaning(time)));
         }
         Collections.sort(readyTime);
 
         for (String[] time : book_time) {
-            Long startTime = s.parse(time[0]).getTime();
-            if(readyTime.get(0) <= startTime) {
+            int startTime = convertStringToLong(time[0]);
+            if (readyTime.get(0) <= startTime) {
                 readyTime.remove(0);
             } else {
                 roomCount += 1;
@@ -36,7 +24,7 @@ class Solution {
         return roomCount;
     }
 
-    public static String calcCleaning(String[] time) {
+    private String calcCleaning(String[] time) {
         String[] endTime = time[1].split(":");
 
         int hour = Integer.parseInt(endTime[0]), min = Integer.parseInt(endTime[1]) + 10;
@@ -47,5 +35,9 @@ class Solution {
         }
 
         return String.format("%02d:%02d", hour, min);
+    }
+
+    private int convertStringToLong(String time) {
+        return Integer.parseInt(time.replace(":", ""));
     }
 }
